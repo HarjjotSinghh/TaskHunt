@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "frontend": "cd ./frontend && npx vite",
+    "backend": "cd ./backend && nodemon app.js",
+    "dev": "concurrently \"npm run frontend\" \"npm run backend\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
