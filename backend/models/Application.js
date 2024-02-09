@@ -24,6 +24,9 @@ const applicationSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    demoLink: {
+        type: String,
+    },
 });
 
 module.exports = mongoose.model("Application", applicationSchema);

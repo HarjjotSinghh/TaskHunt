@@ -27,6 +27,10 @@ const taskSchema = new mongoose.Schema({
     deadline: {
         type: Date,
         required: true
+    },
+    bounty: {
+        type: Number,
+        required: true
     }
 })
 
