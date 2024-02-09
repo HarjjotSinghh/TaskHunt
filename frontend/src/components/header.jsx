@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import { useLogout } from "../hooks/useLogout"
 import { useAuthContext } from "../hooks/useAuthContext"
 import { useState } from "react"
+import { Avatar, Group, Text } from "@mantine/core"
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -28,7 +29,7 @@ const Header = () => {
 
   return (
     <>
-      <nav className="backdrop-blur-lg z-[999] fixed text-[18px] w-full">
+      <nav className="backdrop-blur-lg z-[999] fixed text-base w-full">
         <div className="flex flex-wrap items-center justify-between p-4 lg:px-12 px-2 first:mr-auto last:ml-auto">
           <Link to="/" className="flex items-center">
             Website Name
@@ -38,12 +39,9 @@ const Header = () => {
               {user ? (
                 <button type="button" className="flex lg:pl-16 pl-0 lg:mr-3 items-center justify-center text-sm  rounded-full mr-0" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom" onClick={toggleDropdown}>
                   <span className="sr-only">Open user menu</span>
-                  <img
-                    className="xl:w-10 xl:h-10 w-8 h-8 rounded-full"
-                    src="https://www.freeiconspng.com/uploads/am-a-19-year-old-multimedia-artist-student-from-manila--21.png"
-                    alt="user_photo"
-                    draggable="false"
-                  />
+                  <Group>
+                    <Avatar>Z</Avatar>
+                  </Group>
                   {user &&
                     (
                       <span className="pt-1 text-[18px]">{user.name}</span>
@@ -103,7 +101,7 @@ const Header = () => {
           <div
             className={`items-center justify-between w-full lg:flex  lg:w-auto lg:order-1 ${isMobileMenuOpen ? "" : "hidden"}`}
             id="mobile-menu-2">
-            <ul className="flex flex-col font-medium p-4 lg:p-0 mt-4 border border-gray-100 rounded-lg lg:flex-row lg:space-x-8 lg:mt-0 lg:border-0 md:">
+            <ul className="flex flex-col p-4 lg:p-0 mt-4 rounded-lg lg:flex-row lg:space-x-8 lg:mt-0 lg:border-0 md:">
               <li>
                 <Link
                   to="/"
@@ -115,28 +113,28 @@ const Header = () => {
               </li>
               <li>
                 <Link
-                  to="/submission"
+                  to="/tasks"
                   className="block py-2 pl-3 pr-4 rounded "
                   onClick={closeMobileMenu}>
-                  Application
+                  Tasks
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/add"
+                  to="/create-task"
                   className="block py-2 pl-3 pr-4 rounded "
                   onClick={closeMobileMenu}>
-                  View Listings
+                  Create Task
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   to="/contact-us"
                   className="block py-2 pl-3 pr-4 rounded "
                   onClick={closeMobileMenu}>
                   Contact Us
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>

@@ -7,15 +7,18 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import "./index.css";
+import '@mantine/core/styles.css';
+import { MantineProvider, createTheme, rem } from '@mantine/core';
+import { AuthContextProvider } from "./contexts/AuthContext";
+import MainLayout from "./layout";
+import ProfilePage from "./pages/profile-page";
+import CreateTaskPage from "./pages/create-task-page";
 import IndexPage from "./App";
 import LoginPage from "./pages/login-page";
 import RegisterPage from "./pages/register-page";
-import '@mantine/core/styles.css';
-import { MantineProvider, createTheme, rem } from '@mantine/core';
-import MainLayout from "./layout";
-import { AuthContextProvider } from "./contexts/AuthContext";
-import ProfilePage from "./pages/profile-page";
-import CreateTaskPage from "./pages/create-task-page";
+import AllTasksPage from "./pages/tasks-page";
+import TaskPage from "./pages/task-page";
+
 
 const purpleTheme = [
   "#f5ecff",
@@ -58,6 +61,8 @@ const router = createBrowserRouter(createRoutesFromElements(
       <Route index element={<IndexPage />} />
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/create-task" element={<CreateTaskPage />} />
+      <Route path="/tasks" element={<AllTasksPage/>} />
+      <Route path="/task/:taskID" element={<TaskPage />} />
     </Route>
     <Route path="/login" element={<LoginPage />}></Route>
     <Route path="/register" element={<RegisterPage />} />

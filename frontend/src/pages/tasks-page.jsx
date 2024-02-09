@@ -1,65 +1,93 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Col, Container, Grid, Card, Text, Button } from '@mantine/core';
+import { Container, Grid, Card, Text, Button, Title, Pagination } from '@mantine/core';
+import { FaDollarSign, FaCalendarAlt, FaUser } from 'react-icons/fa';
 
-// export default function AllTasksPage() {
-//   const [tasks, setTasks] = useState([]);
-//   const [loading, setLoading] = useState(true);
+export default function AllTasksPage() {
+  const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [tasksPerPage] = useState(9);
 
-//   useEffect(() => {
-//     const fetchTasks = async () => {
-//       try {
-//         const response = await axios.get(`${import.meta.env.VITE_BACKEND_URI}/api/tasks`);
-//         setTasks(response.data.tasks);
-//       } catch (error) {
-//         console.error('Error fetching tasks:', error);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URI}/api/tasks`);
+        setTasks(response.data.tasks);
+      } catch (error) {
+        console.error('Error fetching tasks:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-//     fetchTasks();
-//   }, []);
+    fetchTasks();
+  }, []);
 
-//   return (
-//     <Container size="xl">
-//       <Text align="center" mt={5} mb={2} size="lg" weight={700}>
-//         Available Tasks
-//       </Text>
-//       <Grid>
-//         {loading ? (
-//           <Text align="center" size="xl">
-//             Loading...
-//           </Text>
-//         ) : (
-//           tasks.map((task) => (
-//             <Col span={12} sm={6} md={4} lg={3} key={task._id}>
-//               <Card shadow="sm" padding="md" radius="md" className="mb-md">
-//                 <Text size="sm" color="dimmed">
-//                   {task.deadline}
-//                 </Text>
-//                 <Text size="lg" weight={700} mt={1}>
-//                   {task.name}
-//                 </Text>
-//                 <Text size="sm" color="dimmed" mt={1}>
-//                   {task.description}
-//                 </Text>
-//                 <Text size="sm" weight={700} mt={2}>
-//                   Bounty: {task.bounty}
-//                 </Text>
-//                 <Button fullWidth mt={2} component="a" href={`/task/${task._id}`} variant="light">
-//                   View Task
-//                 </Button>
-//               </Card>
-//             </Col>
-//           ))
-//         )}
-//       </Grid>
-//     </Container>
-//   );
-// }
+  const indexOfLastTask = currentPage * tasksPerPage;
+  const indexOfFirstTask = indexOfLastTask - tasksPerPage;
+  const currentTasks = tasks.slice(indexOfFirstTask, indexOfLastTask);
 
-function TasksPage() {
-    return <>Hello?</>
+  const handlePageChange = (newPage) => setCurrentPage(newPage);
+
+  return (
+    <Container size="xl">
+      <Title order={1} align="center" mt={24} mb={48} fw={800}>
+        Available Tasks
+      </Title>
+      <Grid gutter={32}>
+        {loading ? (
+          <Text align="center" size="xl">
+            Loading...
+          </Text>
+        ) : (
+          currentTasks.map((task) => (
+            <Grid.Col span={{ lg: 4 }} key={task._id}>
+              <Card withBorder padding="xl" radius="md" className="mb-md">
+                <Text size="28px" fw={700}>
+                  {task.name}
+                </Text>
+                <Text lineClamp={3} size="xl" mt={20}>
+                  {task.description}
+                </Text>
+                <Text size="xl" mt={20} fw={600} className='inline-flex items-center gap-2 '>
+                  <FaDollarSign className='size-5' />
+                  <div className='w-full flex justify-between items-center gap-2 flex-row-reverse'>
+                    <Text inherit fw={400}>Bounty</Text> {task.bounty} INR
+                  </div>
+                </Text>
+                <Text mt={6} size="xl" fw={600} className='inline-flex items-center gap-2' >
+                  <FaCalendarAlt className='size-5' />
+                  <div className='w-full flex justify-between items-center gap-2 flex-row-reverse'>
+                    <Text inherit fw={400}>Deadline</Text> {new Date(task.deadline).toLocaleDateString()}
+                  </div>
+                </Text>
+                <Text mt={6} size="xl" fw={600} className='inline-flex items-center gap-2'>
+                  <FaUser className='size-5' />
+                  <div className='w-full flex justify-between items-center gap-2 flex-row-reverse'>
+                    <Text inherit fw={400}>Posted By</Text> {task.owner.name}
+                  </div>
+                </Text>
+                <Button className='inline-flex items-center gap-2' fullWidth mt={26} size='lg' component="a" href={`/task/${task._id}`} variant="light">
+                  View Task
+                </Button>
+              </Card>
+            </Grid.Col>
+          ))
+        )}
+      </Grid>
+
+      <Pagination
+        total={(tasks.length / tasksPerPage) + 1}
+        limit={tasksPerPage}
+        page={currentPage}
+        onChange={handlePageChange}
+        withControls
+        autoContrast
+        size={"xl"}
+        mt={24}
+        className='flex justify-center items-center'
+      />
+    </Container>
+  );
 }
-export default TasksPage 
