@@ -15,6 +15,7 @@ import '@mantine/core/styles.css';
 import { MantineProvider, createTheme, rem } from '@mantine/core';
 import MainLayout from "./layout";
 import { AuthContextProvider } from "./contexts/AuthContext";
+import ProfilePage from "./pages/profile-page";
 
 const purpleTheme = [
   '#f5ecff',
@@ -56,6 +57,7 @@ const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/" >
     <Route path="/" element={<MainLayout />}>
       <Route index element={<IndexPage />} />
+      <Route path="/profile" element={<ProfilePage/>}/>
     </Route>
     <Route path="/login" element={<LoginPage />}></Route>
     <Route path="/register" element={<RegisterPage />} />
