@@ -43,6 +43,16 @@ const userSchema = new mongoose.Schema(
             type: String,
             default: "",
             required: true
+        },
+        backgroundImageURL: {
+            type: String,
+            default: "",
+            required: true
+        },
+        profilePictureURL: {
+            type: String,
+            default: "",
+            required: true
         }
     },
     { timestamps: true }
