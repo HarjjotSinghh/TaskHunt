@@ -3,7 +3,8 @@ import { Link } from "react-router-dom"
 import { useLogout } from "../hooks/useLogout"
 import { useAuthContext } from "../hooks/useAuthContext"
 import { useState } from "react"
-import { Avatar, Group, Text } from "@mantine/core"
+import { Avatar, Button, Group, Image, Text } from "@mantine/core"
+import { FiLogIn } from "react-icons/fi";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -29,10 +30,10 @@ const Header = () => {
 
   return (
     <>
-      <nav className="backdrop-blur-lg z-[999] fixed text-base w-full">
+      <nav className="bg-black/5 border-b border-black/50 backdrop-blur-lg z-[999] fixed text-base w-full">
         <div className="flex flex-wrap items-center justify-between p-4 lg:px-12 px-2 first:mr-auto last:ml-auto">
           <Link to="/" className="flex items-center">
-            Website Name
+            <Image src={"/logo.png"} className="h-8 w-auto opacity-85"></Image>
           </Link>
           <div className="flex items-center lg:order-2">
             <div className="relative">
@@ -49,11 +50,13 @@ const Header = () => {
                   }
                 </button>
               ) : (
-                <Link to="/login" className="flex gap-4 justify-center items-center">
-                  <h1 className="pt-1">
-                    Login
-                  </h1>
-                  <img className="xl:w-6 xl:h-6 w-5 h-5" draggable="false" src="https://cdn-icons-png.flaticon.com/512/3596/3596092.png" alt="login"></img>
+                <Link to="/login" >
+                  <Button size="md" variant="subtle" rightSection={<FiLogIn className="size-4" />} className="flex gap-2 justify-center items-center">
+                    <h1 className="-mt-0.5 font-medium">
+                      Login
+                    </h1>
+                  </Button>
+
 
                 </Link>
               )}

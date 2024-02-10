@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Grid, Card, Text, Button, Title, Pagination } from '@mantine/core';
-import { FaDollarSign, FaCalendarAlt, FaUser } from 'react-icons/fa';
+import { FaDollarSign, FaCalendarAlt, FaUser, FaRupeeSign } from 'react-icons/fa';
 
 export default function AllTasksPage() {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [tasksPerPage] = useState(9);
+  const [tasksPerPage] = useState(6);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -50,24 +50,26 @@ export default function AllTasksPage() {
                 <Text lineClamp={3} size="xl" mt={20}>
                   {task.description}
                 </Text>
-                <Text size="xl" mt={20} fw={600} className='inline-flex items-center gap-2 '>
-                  <FaDollarSign className='size-5' />
-                  <div className='w-full flex justify-between items-center gap-2 flex-row-reverse'>
-                    <Text inherit fw={400}>Bounty</Text> {task.bounty} INR
-                  </div>
-                </Text>
-                <Text mt={6} size="xl" fw={600} className='inline-flex items-center gap-2' >
-                  <FaCalendarAlt className='size-5' />
-                  <div className='w-full flex justify-between items-center gap-2 flex-row-reverse'>
-                    <Text inherit fw={400}>Deadline</Text> {new Date(task.deadline).toLocaleDateString()}
-                  </div>
-                </Text>
-                <Text mt={6} size="xl" fw={600} className='inline-flex items-center gap-2'>
-                  <FaUser className='size-5' />
-                  <div className='w-full flex justify-between items-center gap-2 flex-row-reverse'>
-                    <Text inherit fw={400}>Posted By</Text> {task.owner.name}
-                  </div>
-                </Text>
+                <div className='flex flex-col divide-y divide-purple-500/50'>
+                  <Text size="xl" mt={20} fw={600} className='inline-flex items-center gap-2 '>
+                    <FaRupeeSign className='size-5' />
+                    <div className='w-full flex justify-between items-center gap-2'>
+                      <Text inherit fw={400}>Bounty</Text> {task.bounty} INR
+                    </div>
+                  </Text>
+                  <Text mt={6} size="xl" fw={600} className='inline-flex items-center gap-2' >
+                    <FaCalendarAlt className='size-5' />
+                    <div className='w-full flex justify-between items-center gap-2'>
+                      <Text inherit fw={400}>Deadline</Text> {new Date(task.deadline).toLocaleDateString()}
+                    </div>
+                  </Text>
+                  <Text mt={6} size="xl" fw={600} className='inline-flex items-center gap-2'>
+                    <FaUser className='size-5' />
+                    <div className='w-full flex justify-between items-center gap-2'>
+                      <Text inherit fw={400}>Posted By</Text> {task.owner.name}
+                    </div>
+                  </Text>
+                </div>
                 <Button className='inline-flex items-center gap-2' fullWidth mt={26} size='lg' component="a" href={`/task/${task._id}`} variant="light">
                   View Task
                 </Button>

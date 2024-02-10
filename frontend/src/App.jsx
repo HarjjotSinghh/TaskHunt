@@ -1,4 +1,3 @@
-import "./App.css"
 import { Anchor, Button, Flex } from "@mantine/core"
 
 function IndexPage() {

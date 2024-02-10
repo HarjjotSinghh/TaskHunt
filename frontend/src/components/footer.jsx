@@ -1,4 +1,4 @@
-import { Text, Container, ActionIcon, Group, rem } from '@mantine/core';
+import { Text, Container, ActionIcon, Group, rem, Image } from '@mantine/core';
 import { IconBrandTwitter, IconBrandYoutube, IconBrandInstagram } from '@tabler/icons-react';
 import classes from './footer.module.css';
 
@@ -58,9 +58,9 @@ export default function FooterLinks() {
     <footer className={classes.footer}>
       <Container className={classes.inner}>
         <div className={classes.logo}>
-          <div>Website logo</div>
-          <Text size="xs" c="dimmed" className={classes.description}>
-            Build fully functional accessible web applications faster than ever
+          <Image src={"/logo.png"} className="opacity-80"></Image>
+          <Text size="sm" c="dimmed" className={classes.description}>
+            Hire skilled and motivated students for your tasks and support their journey.
           </Text>
         </div>
         <div className={classes.groups}>{groups}</div>

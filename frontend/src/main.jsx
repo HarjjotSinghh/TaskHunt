@@ -13,7 +13,7 @@ import { AuthContextProvider } from "./contexts/AuthContext";
 import MainLayout from "./layout";
 import ProfilePage from "./pages/profile-page";
 import CreateTaskPage from "./pages/create-task-page";
-import IndexPage from "./App";
+import IndexPage from "./pages/index-page";
 import LoginPage from "./pages/login-page";
 import RegisterPage from "./pages/register-page";
 import AllTasksPage from "./pages/tasks-page";
@@ -52,7 +52,9 @@ const theme = createTheme({
     md: "1.55",
     lg: "1.6",
     xl: "1.65"
-  }
+  },
+  fontFamily: "Figtree, sans-serif"
+
 })
 
 const router = createBrowserRouter(createRoutesFromElements(
@@ -71,7 +73,7 @@ const router = createBrowserRouter(createRoutesFromElements(
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <MantineProvider theme={theme} defaultColorScheme="auto">
+    <MantineProvider theme={theme} withCssVariables withGlobalStyles defaultColorScheme="auto">
       <AuthContextProvider>
         <RouterProvider router={router} />
       </AuthContextProvider>

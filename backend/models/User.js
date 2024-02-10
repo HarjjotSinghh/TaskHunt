@@ -42,17 +42,14 @@ const userSchema = new mongoose.Schema(
         bio: {
             type: String,
             default: "",
-            required: true
         },
         backgroundImageURL: {
             type: String,
             default: "",
-            required: true
         },
         profilePictureURL: {
             type: String,
             default: "",
-            required: true
         }
     },
     { timestamps: true }
@@ -62,6 +59,11 @@ const userSchema = new mongoose.Schema(
 userSchema.methods.comparePassword = async function (password) {
     return bcrypt.compare(password, this.password)
 }
+userSchema.virtual("populatedApplications", {
+    ref: "Application",
+    localField: "_id",
+    foreignField: "applicant",
+  });
 
 const User = mongoose.model("User", userSchema)
 

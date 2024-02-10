@@ -5,6 +5,7 @@ require("dotenv").config();
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const taskRoutes = require("./routes/task");
+const applicationRoutes = require("./routes/application");
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -26,6 +27,9 @@ app.use("/user", userRoutes);
 
 // Define task routes
 app.use("/api/tasks", taskRoutes);
+
+// Define applications routes
+app.use("/api/applications", applicationRoutes);
 
 // Start the server
 app.listen(PORT, () => {
