@@ -75,12 +75,12 @@ export default function CreateTaskPage() {
                         Create a new task
                     </Title>
                     <form onSubmit={handleSubmit}>
-                        <TextInput withAsterisk={!form.isValid("name")} label="Task Title" placeholder="Enter the task title" {...form.getInputProps('name')} size="md" />
-                        <Textarea resize='vertical' withAsterisk={!form.isValid("description")} label="Task Description" placeholder="Enter the task description" mt="md" size="md" {...form.getInputProps('description')} />
-                        <TextInput withAsterisk={!form.isValid("deadline")} label="Task Deadline" placeholder="Enter the task deadline" mt="md" type="datetime-local" {...form.getInputProps('deadline')} />
-                        <TextInput withAsterisk={!form.isValid("bounty")} label="Task Bounty" placeholder="Enter the task bounty" mt="md" type="number" {...form.getInputProps('bounty')} />
+                        <TextInput withAsterisk={!form.isValid("name")} label="Task Title" placeholder="Enter the task title" {...form.getInputProps('name')} size="lg" />
+                        <Textarea resize='vertical' withAsterisk={!form.isValid("description")} label="Task Description" placeholder="Enter the task description" mt="md" size="lg" {...form.getInputProps('description')} />
+                        <TextInput size='lg' withAsterisk={!form.isValid("deadline")} label="Task Deadline" placeholder="Enter the task deadline" mt="md" type="datetime-local" {...form.getInputProps('deadline')} />
+                        <TextInput size='lg' withAsterisk={!form.isValid("bounty")} label="Task Bounty" placeholder="Enter the task bounty" mt="md" type="number" {...form.getInputProps('bounty')} />
 
-                        <Button disabled={loading} fullWidth mt="xl" size="md" variant="light" type="submit">
+                        <Button disabled={loading} fullWidth mt="xl" size="lg" variant="light" type="submit">
                             Create Task
                         </Button>
                         <Text size="lg" ta="center" opacity={0.9} mt="md">

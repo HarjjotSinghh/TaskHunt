@@ -16,7 +16,7 @@
 .dots {
     position: absolute;
     color: light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-5));
-
+    opacity: 0.2;
     @media (max-width: $mantine-breakpoint-sm) {
         display: none;
     }

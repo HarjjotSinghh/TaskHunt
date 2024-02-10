@@ -14,7 +14,7 @@ export default function IndexPage() {
             <div className={classes.inner}>
                 <Title className="text-center">
                     Industry experience, now only a {' '}
-                    <span className="text-[var(--mantine-color-purple-4)]">
+                    <span className="text-[var(--mantine-color-purple-5)]">
                         few clicks
                     </span>{' '}
                     away.

@@ -2,14 +2,40 @@ import { Link } from "react-router-dom"
 // import { HamburgerButton } from "./HamburgerButton";
 import { useLogout } from "../hooks/useLogout"
 import { useAuthContext } from "../hooks/useAuthContext"
-import { useState } from "react"
-import { Avatar, Button, Group, Image, Text } from "@mantine/core"
+import { useEffect, useState } from "react"
+import { Avatar, Button, Group, Image, Text, Title } from "@mantine/core"
 import { FiLogIn } from "react-icons/fi";
+import axios from "axios"
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false)
-
+  const [userData, setUserData] = useState({});
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    async function getProfile() {
+      try {
+        setLoading(true)
+        await axios.get(`${import.meta.env.VITE_BACKEND_URI}/user/profile`, {
+          headers: {
+            "Authorization": `Bearer ${localStorage.getItem('token')}`
+          }
+        }).then((res) => {
+          setUserData(res)
+        }).catch((err) => {
+          if (err.status === 401) {
+            return <Title order={3} ta={"center"}>You are not logged in.</Title>
+          }
+          console.error(err)
+        })
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    getProfile();
+  }, [])
   const toggleDropdown = () => {
     setIsOpen(!isOpen)
   }
@@ -28,26 +54,32 @@ const Header = () => {
   }
   const { user } = useAuthContext()
 
+
   return (
     <>
-      <nav className="bg-black/5 border-b border-black/50 backdrop-blur-lg z-[999] fixed text-base w-full">
+      <nav className="bg-black/5 border-b border-[var(--mantine-color-dark-6)] backdrop-blur-lg z-[999] fixed text-base w-full">
         <div className="flex flex-wrap items-center justify-between p-4 lg:px-12 px-2 first:mr-auto last:ml-auto">
           <Link to="/" className="flex items-center">
-            <Image src={"/logo.png"} className="h-8 w-auto opacity-85"></Image>
+            <Image src={"/logo.png"} className="h-8 w-auto opacity-80"></Image>
           </Link>
           <div className="flex items-center lg:order-2">
             <div className="relative">
-              {user ? (
-                <button type="button" className="flex lg:pl-16 pl-0 lg:mr-3 items-center justify-center text-sm  rounded-full mr-0" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom" onClick={toggleDropdown}>
-                  <span className="sr-only">Open user menu</span>
-                  <Group>
-                    <Avatar>Z</Avatar>
-                  </Group>
-                  {user &&
+              {userData.status === 200 ? (
+
+                <button type="button" className="flex gap-2 items-center justify-center text-sm  rounded-full mr-0" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom" onClick={toggleDropdown}>
+                  {/* <span className="sr-only">Open user menu</span> */}
+
+                  {userData.data.user &&
                     (
-                      <span className="pt-1 text-[18px]">{user.name}</span>
+                      <>
+                        <span className="text-base md:block hidden max-w-[200px] truncate">{userData.data.user.name}</span>
+                        <Group>
+                          <Avatar>{userData.data.user.name[0].toUpperCase()}</Avatar>
+                        </Group>
+                      </>
                     )
                   }
+
                 </button>
               ) : (
                 <Link to="/login" >
@@ -61,7 +93,7 @@ const Header = () => {
                 </Link>
               )}
               {(isOpen && user) && (
-                <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md border-b border-gray-500 py-1 ring-1backdrop-blur-lg" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabIndex="-1">
+                <div className="origin-top-right absolute right-0 mt-4 w-48 rounded-md border-b border-[var(--mantine-color-dark-3)] bg-[var(--mantine-color-dark-7)] py-1 backdrop-blur-xl" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabIndex="-1">
                   <Link to="/profile">
                     <span className="block px-4 py-2 text-sm " role="menuitem">Your Profile</span>
                   </Link>
@@ -108,7 +140,7 @@ const Header = () => {
               <li>
                 <Link
                   to="/"
-                  className="block py-2 pl-3 pr-4  rounded"
+                  className="block py-2 px-3  rounded"
                   aria-current="page"
                   onClick={closeMobileMenu}>
                   Home
@@ -117,7 +149,7 @@ const Header = () => {
               <li>
                 <Link
                   to="/tasks"
-                  className="block py-2 pl-3 pr-4 rounded "
+                  className="block py-2 px-3 rounded "
                   onClick={closeMobileMenu}>
                   Tasks
                 </Link>
@@ -125,7 +157,7 @@ const Header = () => {
               <li>
                 <Link
                   to="/create-task"
-                  className="block py-2 pl-3 pr-4 rounded "
+                  className="block py-2 px-3 rounded "
                   onClick={closeMobileMenu}>
                   Create Task
                 </Link>

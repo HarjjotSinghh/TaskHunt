@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Container, Grid, Card, Text, Button, Title, Pagination } from '@mantine/core';
 import { FaDollarSign, FaCalendarAlt, FaUser, FaRupeeSign } from 'react-icons/fa';
 import Spinner from '../components/spinner';
+import { HiMiniCurrencyDollar } from "react-icons/hi2";
 
 export default function AllTasksPage() {
   const [tasks, setTasks] = useState([]);
@@ -32,38 +33,38 @@ export default function AllTasksPage() {
   const handlePageChange = (newPage) => setCurrentPage(newPage);
 
   return (
-    <Container size="xl">
+    <Container size="lg">
       <Title order={1} align="center" mt={24} mb={48} fw={800}>
         Available Tasks
       </Title>
       {loading && <Spinner/>}
-      <Grid gutter={32}>
+      <Grid gutter={28}>
         {loading ? (
           null
         ) : (
           currentTasks.map((task) => (
             <Grid.Col span={{ lg: 4 }} key={task._id}>
-              <Card withBorder padding="xl" radius="md" className="mb-md">
+              <Card withBorder padding="xl" radius="md"  className="mb-md">
                 <Text size="28px" fw={700}>
                   {task.name}
                 </Text>
-                <Text lineClamp={3} size="xl" mt={20}>
+                <Text lineClamp={3} size="lg" mt={20}>
                   {task.description}
                 </Text>
                 <div className='flex flex-col divide-y divide-purple-500/50'>
-                  <Text size="xl" mt={20} fw={600} className='inline-flex items-center gap-2 '>
-                    <FaRupeeSign className='size-5' />
+                  <Text size="lg" mt={20} fw={600} className='inline-flex items-center gap-2 '>
+                    <HiMiniCurrencyDollar className='size-5' />
                     <div className='w-full flex justify-between items-center gap-2'>
                       <Text inherit fw={400}>Bounty</Text> {task.bounty} INR
                     </div>
                   </Text>
-                  <Text mt={6} size="xl" fw={600} className='inline-flex items-center gap-2' >
+                  <Text mt={6} size="lg" fw={600} className='inline-flex items-center gap-2' >
                     <FaCalendarAlt className='size-5' />
                     <div className='w-full flex justify-between items-center gap-2'>
                       <Text inherit fw={400}>Deadline</Text> {new Date(task.deadline).toLocaleDateString()}
                     </div>
                   </Text>
-                  <Text mt={6} size="xl" fw={600} className='inline-flex items-center gap-2'>
+                  <Text mt={6} size="lg" fw={600} className='inline-flex items-center gap-2'>
                     <FaUser className='size-5' />
                     <div className='w-full flex justify-between items-center gap-2'>
                       <Text inherit fw={400}>Posted By</Text> {task.owner.name}
