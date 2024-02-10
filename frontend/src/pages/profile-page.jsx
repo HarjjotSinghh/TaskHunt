@@ -132,7 +132,6 @@ export default function ProfilePage() {
                                                     variant="outline"
                                                     size="xs"
                                                     radius={"md"}
-                                                    onClick={() => handleEditApplication(application._id)}
 
                                                 >
                                                     <MdModeEdit className='size-4' />
@@ -143,7 +142,6 @@ export default function ProfilePage() {
                                                     size="xs"
                                                     radius={"md"}
                                                     color="red"
-                                                    onClick={() => handleDeleteApplication(application._id)}
                                                 >
                                                     <MdDeleteForever className='size-4' />
                                                 </Button>
@@ -195,7 +193,6 @@ export default function ProfilePage() {
                                                     variant="outline"
                                                     size="xs"
                                                     radius="md"
-                                                    onClick={() => handleEditTask(task._id)}
                                                 >
                                                     <MdModeEdit className="size-4" />
                                                 </Button>
@@ -205,7 +202,6 @@ export default function ProfilePage() {
                                                     size="xs"
                                                     radius="md"
                                                     color="red"
-                                                    onClick={() => handleDeleteTask(task._id)}
                                                 >
                                                     <MdDeleteForever className="size-4" />
                                                 </Button>
