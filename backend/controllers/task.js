@@ -1,3 +1,4 @@
+const Application = require("../models/Application")
 const Task = require("../models/Task")
 
 async function getAllTasks(req, res, next) {
@@ -29,13 +30,14 @@ async function getAllTags(req, res, next) {
 async function getTaskByID(req, res, next) {
     try {
         const taskID = req.params.taskID
-        const task = await Task.findById(taskID).populate("owner")
+        const task = await Task.findById(taskID).populate(["owner"])
+        const applications = await Application.find({task: taskID}).populate(["applicant"])
         if (!task) {
             return res.status(404).json({ message: "Task not found" })
         }
         return res
             .status(200)
-            .json({ message: "Successfully fetched the task", task: task })
+            .json({ message: "Successfully fetched the task", task: task, applications: applications })
     } catch (error) {
         console.error(error)
         next(error)

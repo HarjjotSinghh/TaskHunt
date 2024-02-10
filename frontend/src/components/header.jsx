@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import { Avatar, Button, Group, Image, Text, Title } from "@mantine/core"
 import { FiLogIn } from "react-icons/fi";
 import axios from "axios"
+import { Router } from "react-router-dom"
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -51,6 +52,7 @@ const Header = () => {
   const { logout } = useLogout()
   const handleLogout = () => {
     logout()
+    window.location.reload();
   }
   const { user } = useAuthContext()
 

@@ -9,16 +9,17 @@ import {
     Avatar,
     Badge,
     Divider,
-    Skeleton,
     TextInput,
     Textarea,
     Button,
-    Flex
+    Flex,
+    Card
 } from '@mantine/core';
-import { useParams } from 'react-router-dom';
-import { AiFillClockCircle, AiOutlineInfoCircle, AiFillDollarCircle } from 'react-icons/ai';
+import { Link, useParams } from 'react-router-dom';
+import { AiFillClockCircle, AiOutlineInfoCircle, AiFillDollarCircle, AiFillTag, AiOutlineUser, AiOutlineForm } from 'react-icons/ai';
 import { useForm } from "@mantine/form"
 import Spinner from '../components/spinner';
+import { IconCheck, IconCross, IconDetails, IconFile, IconForms, IconInfoCircle, IconLink, IconPaperBag, IconPaperclip, IconUser, IconUserCircle, IconX, IconXd } from '@tabler/icons-react';
 
 export default function TaskPage() {
     const params = useParams();
@@ -77,7 +78,6 @@ export default function TaskPage() {
                     if (err.status === 401) {
                         return <Text size='lg' ta={"center"}>You are not logged in.</Text>
                     }
-                    // console.error(err)
                 })
             } catch (error) {
                 // console.error(error);
@@ -93,29 +93,21 @@ export default function TaskPage() {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_BACKEND_URI}/api/tasks/${params.taskID}`);
                 setTask(response.data.task);
+                setApplications(response.data.applications);
             } catch (error) {
                 console.error('Error fetching task:', error);
             } finally {
                 setLoading(false);
             }
         };
-        const fetchApplications = async () => {
-            try {
-                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URI}/api/applications/${params.taskID}`);
-                setApplications(response.data.applications);
-            } catch (error) {
-                console.error('Error fetching applications:', error);
-            } finally {
-                setLoading(false);
-            }
-        }
         fetchTask();
     }, [params]);
+
 
     return (
         <Container size="md">
             {loading ? (
-                <Spinner/>
+                <Spinner />
             ) : (
                 <Stack spacing="md">
                     <Title order={1} align="center" mt={24} mb={48} fw={800}>
@@ -143,13 +135,24 @@ export default function TaskPage() {
                             </Flex>
                         </Flex>
                     </Stack>
-                    <Divider />
-                    <Flex justify="start" align="start" gap={"md"} direction={"column"}>
-                        <Title order={3}>Additional Info</Title>
-                        <AiOutlineInfoCircle />
-                    </Flex>
-                    {/* Add additional info section based on task data */}
-                    {/* {userData.data} */}
+
+                    {task.tags.length !== 0 &&
+                        <>
+                            <Divider />
+                            <Flex justify="start" align="center" gap={"md"} direction={"row"}>
+                                <Title order={3}>Tags</Title>
+                            </Flex>
+                            <div className="flex gap-2 items-start flex-col mb-1">
+                                <div className='flex gap-2 flex-wrap'>
+                                    {task.tags.map((tag) => (
+                                        <Badge leftSection={<AiFillTag />} key={tag} variant="light" color='gray' autoContrast fw={700} size='lg'>
+                                            {tag}
+                                        </Badge>
+                                    ))}
+                                </div>
+                            </div>
+                        </>
+                    }
                     {userData && task.owner && userData.status === 200 && userData.data.user._id !== task.owner._id &&
                         <>
                             <Divider />
@@ -158,7 +161,6 @@ export default function TaskPage() {
                             </Group>
 
                             <form className='flex justify-center items-center flex-col gap-4 w-full' onSubmit={form.onSubmit(handleSubmit)}>
-                                {/* Render form fields using Mantine components */}
                                 <TextInput size='md' label="Your Name" {...form.getInputProps("name")} w={"100%"} />
                                 <Textarea size='md' resize='vertical' label="Description" {...form.getInputProps("description")} w={"100%"} />
                                 <TextInput size='md' label="Demo Link" {...form.getInputProps("demoLink")} w={"100%"} />
@@ -169,10 +171,70 @@ export default function TaskPage() {
                             <Text size='lg' ta={"center"}>
                                 {message}
                             </Text>
-                        </>}
+                        </>
+                    }
+                    {userData && task.owner && userData.status === 200 && userData.data.user._id === task.owner._id && (
+                        <>
+                            <Divider />
+                            <Group justify="start" align="center">
+                                <Title order={3}>Applications Recieved</Title>
+                            </Group>
+                            {applications.length === 0 && <Text size="lg" ta={"left"}>No applications recieved on this task yet...</Text>}
 
+                            <div className='flex justify-center items-center flex-col gap-8'>
+                                {applications.map((application, index) => (
+                                    <Card className='flex flex-col gap-4' key={application._id} withBorder padding="xl" radius="md" mb={4}>
+                                        <Title className='inline-flex items-center gap-2' order={3}>
+                                            <IconUserCircle className='size-6' /> <span className=''>{application.name}</span>
+                                        </Title>
+                                        {application.description && (
+                                            <div className='flex justify-start items-start flex-col gap-1'>
+                                                <Title className='inline-flex flex-row-reverse items-center gap-1' order={4}>
+                                                    <IconInfoCircle className='size-5' />
+                                                    Description
+                                                </Title>
+                                                <Text size="lg" className='whitespace-pre-wrap'>
+                                                    {application.description}
+                                                </Text>
+                                            </div>
+                                        )}
+                                        {application.demoLink && (
+                                            <div className='flex justify-start items-start flex-col gap-1'>
+                                                <Title className='inline-flex flex-row-reverse items-center gap-1' order={4}>
+                                                    <IconLink className='size-5' />
+                                                    Demo Link
+                                                </Title>
+                                                <Link to={application.demoLink} className='text-base underline'>{application.demoLink}</Link>
+                                            </div>
+                                        )}
+                                        <Group justify="end">
+                                            {/* Replace with API endpoint and status update logic */}
+                                            <Button
+                                                variant={application.status === "pending" ? "light" : "outline"}
+                                                color='green'
+                                                disabled={application.status !== "pending"}
+                                                size='md'
+                                                leftSection={<IconCheck className='size-5' />}
+                                                onClick={() => handleAcceptApplication(application._id)}
+                                            >
+                                                Accept
+                                            </Button>
+                                            <Button
+                                                variant="light"
+                                                color="red"
+                                                size='md'
+                                                leftSection={<IconX className='size-5' />}
+                                                onClick={() => handleRejectApplication(application._id)}
+                                            >
+                                                Reject
+                                            </Button>
+                                        </Group>
+                                    </Card>
+                                ))}
+                            </div>
+                        </>
+                    )}
                 </Stack>
-
             )}
         </Container>
     );
