@@ -39,6 +39,7 @@ export default function TaskPage() {
     const [loadingApplication, setLoadingApplication] = useState(false);
     const [message, setMessage] = useState("")
     const [userData, setUserData] = useState({});
+    const [applications, setApplications] = useState([])
 
     const handleSubmit = async () => {
         try {
@@ -98,6 +99,16 @@ export default function TaskPage() {
                 setLoading(false);
             }
         };
+        const fetchApplications = async () => {
+            try {
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URI}/api/applications/${params.taskID}`);
+                setApplications(response.data.applications);
+            } catch (error) {
+                console.error('Error fetching applications:', error);
+            } finally {
+                setLoading(false);
+            }
+        }
         fetchTask();
     }, [params]);
 

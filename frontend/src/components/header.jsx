@@ -66,7 +66,7 @@ const Header = () => {
             <div className="relative">
               {userData.status === 200 ? (
 
-                <button type="button" className="flex gap-2 items-center justify-center text-sm  rounded-full mr-0" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom" onClick={toggleDropdown}>
+                <button type="button" className="flex gap-2 items-center justify-center text-md  rounded-full mr-0" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom" onClick={toggleDropdown}>
                   {/* <span className="sr-only">Open user menu</span> */}
 
                   {userData.data.user &&
@@ -95,15 +95,15 @@ const Header = () => {
               {(isOpen && user) && (
                 <div className="origin-top-right absolute right-0 mt-4 w-48 rounded-md border-b border-[var(--mantine-color-dark-3)] bg-[var(--mantine-color-dark-7)] py-1 backdrop-blur-xl" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabIndex="-1">
                   <Link to="/profile">
-                    <span className="block px-4 py-2 text-sm " role="menuitem">Your Profile</span>
+                    <span onClick={toggleDropdown} className="block px-4 py-2 text-base " role="menuitem">Your Profile</span>
                   </Link>
                   <Link to="/settings">
-                    <span className="block px-4 py-2 text-sm " role="menuitem">Settings</span>
+                    <span onClick={toggleDropdown} className="block px-4 py-2 text-base " role="menuitem">Settings</span>
 
                   </Link>
 
                   <span
-                    className="block px-4 py-2 text-sm hover:cursor-pointer"
+                    className="block px-4 py-2 text-base hover:cursor-pointer"
                     role="menuitem"
                     onClick={handleLogout}>
                     Sign out
@@ -115,7 +115,7 @@ const Header = () => {
             <button
               data-collapse-toggle="mobile-menu-2"
               type="button"
-              className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden focus:outline-none"
+              className="inline-flex items-center p-2 ml-1 text-md text-gray-500 rounded-lg lg:hidden focus:outline-none"
               aria-controls="mobile-menu-2"
               aria-expanded={isMobileMenuOpen ? "true" : "false"}
               onClick={toggleMobileMenu}>
@@ -136,7 +136,7 @@ const Header = () => {
           <div
             className={`items-center justify-between w-full lg:flex  lg:w-auto lg:order-1 ${isMobileMenuOpen ? "" : "hidden"}`}
             id="mobile-menu-2">
-            <ul className="flex flex-col p-4 lg:p-0 mt-4 rounded-lg lg:flex-row lg:space-x-8 lg:mt-0 lg:border-0 md:">
+            <ul className="flex text-base flex-col p-4 lg:p-0 mt-4 rounded-lg lg:flex-row lg:gap-12 gap-8 lg:mt-0 lg:border-0 md:">
               <li>
                 <Link
                   to="/"

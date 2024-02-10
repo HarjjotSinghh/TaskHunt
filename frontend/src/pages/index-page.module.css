@@ -1,7 +1,7 @@
 .wrapper {
     position: relative;
-    padding-top: rem(120px);
-    margin-bottom: -180px;
+    padding-top: 160px;
+    padding-bottom: 80px;
     @media (max-width: $mantine-breakpoint-sm) {
         padding-top: rem(80px);
         padding-bottom: rem(60px);

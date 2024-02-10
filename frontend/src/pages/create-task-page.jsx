@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { TextInput, Button, Text, Title, Paper, Textarea } from '@mantine/core';
+import { TextInput, Button, Text, Title, Paper, Textarea, TagsInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import Spinner from '../components/spinner';
 
@@ -8,18 +8,23 @@ export default function CreateTaskPage() {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
     const [userData, setUserData] = useState({})
+    const [tags, setTags] = useState([])
+    const [selectedTags, setSelectedTags] = useState(null || [])
+    
     const form = useForm({
         initialValues: {
             name: '',
             description: '',
             deadline: '',
             bounty: 0,
+            tags: selectedTags
         },
         validate: {
             name: (value) => (value.length > 0 ? null : 'Enter a task name'),
             description: (value) => (value.length > 0 ? null : 'Enter a task description'),
             deadline: (value) => (value ? null : 'Enter a task deadline'),
             bounty: (value) => (value >= 0 ? null : 'Enter a valid bounty amount'),
+            tags: (value) => (value.length > 1 ? null : 'Enter at least two tags'),
         },
     });
 
@@ -39,7 +44,18 @@ export default function CreateTaskPage() {
                 setLoading(false);
             }
         }
-
+        async function getTags() {
+            try {
+                setLoading(true);
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URI}/api/tasks/tags`);
+                setTags(response)
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        }
+        getTags();
         getProfile();
     }, []);
 
@@ -47,13 +63,16 @@ export default function CreateTaskPage() {
     const handleSubmit = form.onSubmit(async (values) => {
         try {
             setLoading(true);
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URI}/api/tasks/create`, { ...values, owner: userData.data.user._id }, {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URI}/api/tasks/create`, {
+                ...values,
+                tags: selectedTags,
+                owner: userData.data.user._id,
+            }, {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem('token')}`
                 }
             });
             setMessage(response.data.message);
-            console.log(response.data);
         } catch (error) {
             console.error('Error creating task:', error);
             setMessage(`Something went wrong. Please try again. ${error.message}`);
@@ -79,7 +98,19 @@ export default function CreateTaskPage() {
                         <Textarea resize='vertical' withAsterisk={!form.isValid("description")} label="Task Description" placeholder="Enter the task description" mt="md" size="lg" {...form.getInputProps('description')} />
                         <TextInput size='lg' withAsterisk={!form.isValid("deadline")} label="Task Deadline" placeholder="Enter the task deadline" mt="md" type="datetime-local" {...form.getInputProps('deadline')} />
                         <TextInput size='lg' withAsterisk={!form.isValid("bounty")} label="Task Bounty" placeholder="Enter the task bounty" mt="md" type="number" {...form.getInputProps('bounty')} />
-
+                        <TagsInput
+                            label="Task Tags"
+                            withAsterisk={!form.isValid("tags")}
+                            placeholder="Pick a tag / Create a new tag"
+                            data={tags.data.tags}
+                            type='text'
+                            size='lg'
+                            mt="md"
+                            onOptionSubmit={(value) => { setSelectedTags((prev) => [...prev, value]) }}
+                            splitChars={[',']}
+                            maxDropdownHeight={200}
+                            {...form.getInputProps('tags')}
+                        />
                         <Button disabled={loading} fullWidth mt="xl" size="lg" variant="light" type="submit">
                             Create Task
                         </Button>

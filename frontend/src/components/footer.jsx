@@ -1,6 +1,7 @@
-import { Text, Container, ActionIcon, Group, rem, Image } from '@mantine/core';
+import { Text, Container, ActionIcon, Group, rem, Image, Divider } from '@mantine/core';
 import { IconBrandTwitter, IconBrandYoutube, IconBrandInstagram } from '@tabler/icons-react';
 import classes from './footer.module.css';
+import { Link } from 'react-router-dom';
 
 const data = [
   {
@@ -67,7 +68,7 @@ export default function FooterLinks() {
       </Container>
       <Container className={classes.afterFooter}>
         <Text c="dimmed" size="sm">
-          © 2024 website name. All rights reserved.
+          © 2024 TaskHunt. All rights reserved.<br/> Developed and maintained with 💜 by <Link target='_blank' rel={"norefferer"} className='text-[var(--mantine-color-text)] font-bold' to={"https://github.com/HarjjotSinghh/TaskHunt"}>Team Vizard</Link>.
         </Text>
 
         <Group gap={0} className={classes.social} justify="flex-end" wrap="nowrap">
@@ -81,7 +82,9 @@ export default function FooterLinks() {
             <IconBrandInstagram style={{ width: rem(18), height: rem(18) }} stroke={1.5} />
           </ActionIcon>
         </Group>
+
       </Container>
+
     </footer>
   );
 }

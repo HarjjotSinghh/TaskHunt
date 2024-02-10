@@ -13,24 +13,35 @@ async function getAllTasks(req, res, next) {
     }
 }
 
-async function getTaskByID(req, res, next) {
+async function getAllTags(req, res, next) {
     try {
-        const taskID = req.params.taskID
-        const task = await Task.findById(taskID).populate("owner")
-        if (!task) {
-            return res.status(404).json({
-                message: "Task not found"
-            })
-        }
+        const tags = await Task.distinct("tags")
         return res.status(200).json({
-            message: "Successfully fetched the task",
-            task: task
+            message: "Successfully fetched all tags",
+            tags: tags
         })
     } catch (error) {
         console.error(error)
         next(error)
     }
 }
+
+async function getTaskByID(req, res, next) {
+    try {
+        const taskID = req.params.taskID
+        const task = await Task.findById(taskID).populate("owner")
+        if (!task) {
+            return res.status(404).json({ message: "Task not found" })
+        }
+        return res
+            .status(200)
+            .json({ message: "Successfully fetched the task", task: task })
+    } catch (error) {
+        console.error(error)
+        next(error)
+    }
+}
+
 async function createTask(req, res, next) {
     try {
         const body = req.body
@@ -39,7 +50,8 @@ async function createTask(req, res, next) {
             owner: body.owner,
             description: body.description,
             deadline: body.deadline,
-            bounty: body.bounty
+            bounty: body.bounty,
+            tags: body.tags,
         })
         await task.save()
         return res.status(200).json({
@@ -52,4 +64,44 @@ async function createTask(req, res, next) {
     }
 }
 
-module.exports = { getAllTasks, createTask, getTaskByID }
+async function updateTask(req, res, next) {
+    try {
+        const taskID = req.params.taskID
+        const updates = req.body
+        const task = await Task.findByIdAndUpdate(taskID, updates, {
+            new: true
+        })
+        if (!task) {
+            return res.status(404).json({ message: "Task not found" })
+        }
+        return res
+            .status(200)
+            .json({ message: "Successfully updated task", task: task })
+    } catch (error) {
+        console.error(error)
+        next(error)
+    }
+}
+
+async function deleteTask(req, res, next) {
+    try {
+        const taskID = req.params.taskID
+        const task = await Task.findByIdAndDelete(taskID)
+        if (!task) {
+            return res.status(404).json({ message: "Task not found" })
+        }
+        return res.status(200).json({ message: "Successfully deleted task" })
+    } catch (error) {
+        console.error(error)
+        next(error)
+    }
+}
+
+module.exports = {
+    getAllTasks,
+    getAllTags,
+    createTask,
+    getTaskByID,
+    updateTask,
+    deleteTask
+}

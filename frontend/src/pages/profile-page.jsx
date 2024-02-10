@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react'
 import { Avatar, Badge, Button, Card, Flex, Group, Text, Title } from '@mantine/core';
-import { MdAdd, MdAddCircleOutline, MdDeleteForever, MdModeEdit, MdOutlineAddCircle, MdOutlineNoteAdd } from "react-icons/md";
+import { MdAdd, MdAddCircleOutline, MdDeleteForever, MdEditDocument, MdModeEdit, MdOutlineAddCircle, MdOutlineNoteAdd } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import Spinner from '../components/spinner';
 
@@ -48,12 +48,14 @@ export default function ProfilePage() {
 
                     <Card withBorder padding={"xl"} w={"100%"} maw={{ lg: "450px" }} radius="md" className="bg-[var(--mantine-color-body)]">
                         <Card.Section
-                            h={140}
-                            w={"auto"}
+                            h={160}
+                            w={"fit"}
                             style={{
                                 backgroundImage:
                                     userData.data.user.backgroundImageURL ? `url(${userData.data.user.backgroundImageURL})` :
                                         'url(https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=80)',
+                                backgroundSize: "cover",
+                                backgroundPosition: "center"
                             }}
                         />
                         <Avatar
@@ -69,27 +71,27 @@ export default function ProfilePage() {
                             {userData.data.user.name}
                         </Text>
 
-                        <Text ta="center" fz="md" c="dimmed">
+                        <Text ta="center" fz="lg" c="dimmed">
                             @{userData.data.user.username}
                         </Text>
-                        <Text ta="center" fz="md" fw={400} mt="sm">
+                        <Text ta="center" fz={"lg"} fw={400} mt="sm">
                             {userData.data.user.bio || "User Bio"}
                         </Text>
                         <Group mt="md" justify="center" gap={30}>
                             <div>
-                                <Text ta="center" fz="lg" fw={500}>
+                                <Text ta="center" fz="xl" fw={500}>
                                     {userData.data.user.tasks.length}
                                 </Text>
-                                <Text ta="center" fz="sm" c="dimmed" lh={1}>
-                                    Tasks Listed
+                                <Text ta="center" fz="md" c="dimmed" lh={1}>
+                                    Tasks
                                 </Text>
                             </div>
                             <div>
-                                <Text ta="center" fz="lg" fw={500}>
+                                <Text ta="center" fz="xl" fw={500}>
                                     {userData.data.user.applications.length}
                                 </Text>
-                                <Text ta="center" fz="sm" c="dimmed" lh={1}>
-                                    Applications Submitted
+                                <Text ta="center" fz="md" c="dimmed" lh={1}>
+                                    Applications
                                 </Text>
                             </div>
                         </Group>
@@ -193,6 +195,16 @@ export default function ProfilePage() {
                                             </div>
                                             <div className="flex justify-start items-center gap-3">
                                                 {/* Use inline styles for better responsiveness */}
+                                                <Link to={"/task/" + task._id}>
+                                                    <Button
+                                                        px={6}
+                                                        variant="outline"
+                                                        size="xs"
+                                                        radius="md"
+                                                    >
+                                                        <MdEditDocument className="size-4" />
+                                                    </Button>
+                                                </Link>
                                                 <Button
                                                     px={6}
                                                     variant="outline"
