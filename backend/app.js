@@ -31,6 +31,10 @@ app.use("/api/tasks", taskRoutes);
 // Define applications routes
 app.use("/api/applications", applicationRoutes);
 
+app.use("/", (req, res) => {
+    res.send("Server is running.")
+})
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
