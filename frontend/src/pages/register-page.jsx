@@ -3,6 +3,7 @@ import { useForm } from '@mantine/form';
 import classes from './register-page.module.css';
 import { useState } from 'react';
 import axios from "axios";
+import Spinner from '../components/spinner';
 
 export default function RegisterPage() {
     const [loading, setLoading] = useState(false)
@@ -57,6 +58,7 @@ export default function RegisterPage() {
                     <Button disabled={loading} fullWidth mt="xl" size="md" variant='light' type='submit'>
                         Register
                     </Button>
+                    {loading && <Spinner/>}
                     <Text size='lg' ta={"center"} opacity={0.9} mt={"md"}>
                         {message}
                     </Text>

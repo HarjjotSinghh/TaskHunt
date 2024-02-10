@@ -18,6 +18,7 @@ import {
 import { useParams } from 'react-router-dom';
 import { AiFillClockCircle, AiOutlineInfoCircle, AiFillDollarCircle } from 'react-icons/ai';
 import { useForm } from "@mantine/form"
+import Spinner from '../components/spinner';
 
 export default function TaskPage() {
     const params = useParams();
@@ -103,7 +104,7 @@ export default function TaskPage() {
     return (
         <Container size="md">
             {loading ? (
-                <Skeleton size="xl" />
+                <Spinner/>
             ) : (
                 <Stack spacing="md">
                     <Title order={1} align="center" mt={24} mb={48} fw={800}>
@@ -119,7 +120,7 @@ export default function TaskPage() {
                     <Stack spacing="lg">
                         <Flex justify="start" direction={"column"} align="start" gap="md">
                             <Title order={3}>Description</Title>
-                            <Text className='whitespace-pre-line text-wrap overflow-auto' size="lg" weight={500}>
+                            <Text className='whitespace-pre-line break-words w-full' size="lg" weight={500}>
                                 {task.description}
                             </Text>
                         </Flex>

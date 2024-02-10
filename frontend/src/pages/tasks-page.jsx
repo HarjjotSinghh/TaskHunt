@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Grid, Card, Text, Button, Title, Pagination } from '@mantine/core';
 import { FaDollarSign, FaCalendarAlt, FaUser, FaRupeeSign } from 'react-icons/fa';
+import Spinner from '../components/spinner';
 
 export default function AllTasksPage() {
   const [tasks, setTasks] = useState([]);
@@ -35,11 +36,10 @@ export default function AllTasksPage() {
       <Title order={1} align="center" mt={24} mb={48} fw={800}>
         Available Tasks
       </Title>
+      {loading && <Spinner/>}
       <Grid gutter={32}>
         {loading ? (
-          <Text align="center" size="xl">
-            Loading...
-          </Text>
+          null
         ) : (
           currentTasks.map((task) => (
             <Grid.Col span={{ lg: 4 }} key={task._id}>

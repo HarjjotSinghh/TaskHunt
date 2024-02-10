@@ -4,6 +4,7 @@ import classes from './login-page.module.css';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { useState } from 'react';
 import axios from 'axios';
+import Spinner from '../components/spinner';
 
 export default function LoginPage() {
     const form = useForm({
@@ -71,6 +72,7 @@ export default function LoginPage() {
                     <Button disabled={loading} fullWidth mt="xl" size="md" variant='light' type='submit'>
                         Login
                     </Button>
+                    {loading && <Spinner/>}
                     <Text size='lg' ta={"center"} opacity={0.9} mt={"md"}>
                         {message}
                     </Text>

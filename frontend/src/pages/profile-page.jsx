@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { Avatar, Badge, Button, Card, Flex, Group, Text, Title } from '@mantine/core';
 import { MdAdd, MdAddCircleOutline, MdDeleteForever, MdModeEdit, MdOutlineAddCircle, MdOutlineNoteAdd } from "react-icons/md";
 import { Link } from 'react-router-dom';
+import Spinner from '../components/spinner';
 
 export default function ProfilePage() {
     const [userData, setUserData] = useState({});
@@ -32,16 +33,20 @@ export default function ProfilePage() {
         getProfile();
     }, [])
     if (loading) {
-        return <Text ta={"center"} size='xl'>Loading...</Text>
+
+        return (
+            <Spinner />
+        )
     }
     return (
         <div>
             {userData.status === 200 && userData.data ?
 
-                <Flex justify={"center"} direction={"row"} wrap={"wrap"} gap={{lg: "xl", sm:"lg", xs:"lg"}} py={"48"} align={"start"} px="lg">
+                <Flex justify={"center"} direction={"row"} wrap={"wrap"} gap={{ lg: "xl", sm: "lg", xs: "lg" }} py={"48"} align={"start"} px="lg">
+
                     {/* Make a grid here with 3 cards in it, User Card, Applications Card and Tasks Card with options to edit and delete the applcations and tasks. */}
 
-                    <Card withBorder padding={"xl"} w={"100%"} maw={{lg: "450px"}} radius="md" className="bg-[var(--mantine-color-body)]">
+                    <Card withBorder padding={"xl"} w={"100%"} maw={{ lg: "450px" }} radius="md" className="bg-[var(--mantine-color-body)]">
                         <Card.Section
                             h={140}
                             w={"auto"}
@@ -92,7 +97,7 @@ export default function ProfilePage() {
                             Edit Profile
                         </Button>
                     </Card>
-                    <Flex direction={"column"} gap={{lg: "xl", sm:"lg", xs:"lg"}}>
+                    <Flex direction={"column"} gap={{ lg: "xl", sm: "lg", xs: "lg" }}>
 
                         <Card withBorder padding={"xl"} radius="md">
                             <Title order={2} ta="center" fw={800}>
@@ -121,7 +126,7 @@ export default function ProfilePage() {
                                                     </Badge>
                                                 )}
                                                 {/* Display application name, task name, and maybe owner name */}
-                                                <Text maw={{lg:"380px"}} lineClamp={2} size="lg" fw={600}>
+                                                <Text maw={{ lg: "380px" }} lineClamp={2} size="lg" fw={600}>
                                                     Applied for <Link to={"/task/" + application.task._id} className="underline">{application.task.name}</Link> on {new Date(application.createdAt).toLocaleDateString()}
                                                 </Text>
                                             </div>
@@ -180,7 +185,7 @@ export default function ProfilePage() {
                                                     </Badge>
                                                 )}
 
-                                                <Text maw={{lg:"350px"}} lineClamp={2} size="lg" fw={600}>
+                                                <Text maw={{ lg: "350px" }} lineClamp={2} size="lg" fw={600}>
                                                     Listed <Link to={"/task/" + task._id} className='underline'>{task.name}</Link> on {new Date(task.createdAt).toLocaleDateString()}
                                                 </Text>
 

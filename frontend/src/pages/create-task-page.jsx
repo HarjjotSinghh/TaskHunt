@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { TextInput, Button, Text, Title, Paper, Textarea } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import Spinner from '../components/spinner';
 
 export default function CreateTaskPage() {
     const [loading, setLoading] = useState(false);
@@ -63,7 +64,7 @@ export default function CreateTaskPage() {
     });
     if (loading) {
         return (
-            <Text ta={"center"} size='xl'>Loading...</Text>
+            <Spinner />
         )
     }
     return (
