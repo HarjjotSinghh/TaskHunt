@@ -194,7 +194,7 @@ export default function TaskPage() {
                         </Flex>
                     </Stack>
 
-                    {task.tags.length !== 0 &&
+                    {task.tags && task.tags.length !== 0 &&
                         <>
                             <Divider />
                             <Flex justify="start" align="center" gap={"md"} direction={"row"}>
