@@ -12,7 +12,7 @@ const router = express.Router()
 router.get("/", getAllApplications)
 router.get("/:applicationID", getApplicationByID)
 router.post("/create", authenticate, createApplication)
-router.post("/delete/:applicationID", authenticate, deleteApplication)
-router.post("/update/:applicationID", authenticate, updateApplication)
+router.delete("/delete/:applicationID", authenticate, deleteApplication)
+router.patch("/update/:applicationID", authenticate, updateApplication)
 
 module.exports = router

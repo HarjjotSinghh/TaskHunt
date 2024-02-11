@@ -42,7 +42,7 @@ export default function ProfilePage() {
         <div>
             {userData.status === 200 && userData.data ?
 
-                <Flex justify={"center"} direction={"row"} wrap={"wrap"} gap={{ lg: "xl", sm: "lg", xs: "lg" }} py={"48"} align={"start"} px="lg">
+                <Flex justify={"center"} direction={"row"} wrap={"wrap"} gap={"xl"} py={"48"} align={"start"} px="lg">
 
                     {/* Make a grid here with 3 cards in it, User Card, Applications Card and Tasks Card with options to edit and delete the applcations and tasks. */}
 
@@ -99,7 +99,7 @@ export default function ProfilePage() {
                             Edit Profile
                         </Button>
                     </Card>
-                    <Flex direction={"column"} gap={{ lg: "xl", sm: "lg", xs: "lg" }}>
+                    <Flex direction={"column"} gap={"xl"}>
 
                         <Card withBorder padding={"xl"} radius="md">
                             <Title order={2} ta="center" fw={800}>
@@ -109,15 +109,15 @@ export default function ProfilePage() {
                                 {userData.data.user.applications.map((application) => (
                                     <li key={application._id} className="">
                                         {/* {JSON.stringify(application)} */}
-                                        <div className="flex justify-between gap-16 items-center mt-3">
-                                            <div className="flex justify-start items-center gap-2">
+                                        <div className="flex justify-between sm:gap-16 gap-2 mt-3 sm:flex-row flex-col sm:items-center items-start">
+                                            <div className="flex justify-start sm:items-center items-start gap-2 sm:flex-row flex-col">
                                                 {/* Icon based on application status */}
                                                 {application.status === "pending" && (
                                                     <Badge variant='light' size="md" color="orange" >
                                                         {application.status}
                                                     </Badge>
                                                 )}
-                                                {application.status === "accepted" && (
+                                                {application.status === "selected" && (
                                                     <Badge variant='light' size="md" color="green" >
                                                         {application.status}
                                                     </Badge>
@@ -167,15 +167,15 @@ export default function ProfilePage() {
 
                         </Card>
 
-                        <Card withBorder padding={'xl'} radius="md">
+                        <Card withBorder padding={"xl"} radius="md">
                             <Title order={2} ta="center" fw={800}>
                                 Tasks Listed
                             </Title>
                             <ul className="mt-8 grid space-y-3 divide-y divide-purple-500/50">
                                 {userData.data.user.tasks.map((task) => (
                                     <li key={task._id} className="">
-                                        <div className="flex justify-between gap-16 items-center mt-3">
-                                            <div className="flex justify-start items-center gap-2">
+                                        <div className="flex justify-between sm:gap-16 gap-2 mt-3 sm:flex-row flex-col sm:items-center items-start">
+                                            <div className="flex justify-start sm:items-center items-start gap-2 sm:flex-row flex-col">
                                                 {/* Icon based on task status (replace with your logic) */}
                                                 {task.completed ? (
                                                     <Badge variant='light' size="md" color="green" >

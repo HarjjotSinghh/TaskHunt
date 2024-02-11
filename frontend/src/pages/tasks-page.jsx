@@ -137,6 +137,7 @@ export default function AllTasksPage() {
         size={"xl"}
         mt={24}
         className='flex justify-center items-center'
+        onNextPage={window.scrollTo(0, 0, { behavior: 'smooth' })}
       />
     </Container>
   );

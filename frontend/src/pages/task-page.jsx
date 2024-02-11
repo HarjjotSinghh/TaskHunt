@@ -42,6 +42,64 @@ export default function TaskPage() {
     const [userData, setUserData] = useState({});
     const [applications, setApplications] = useState([])
 
+    const handleAcceptApplication = async (applicationId) => {
+        try {
+            setLoading(true)
+            const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URI}/api/applications/update/${applicationId}`, {
+                status: "selected"
+            }, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+
+            // Update applications state to reflect the change
+            setApplications(applications.map((app) => (app._id === applicationId ? { ...app, status: "selected" } : { ...app, status: "rejected" })));
+
+            // Update task state to mark it as completed
+            await axios.patch(`${import.meta.env.VITE_BACKEND_URI}/api/tasks/update/${task._id}`, {
+                completed: true
+            }, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+
+            // Show success message to the user
+            setMessage("Application accepted and task marked as completed.");
+        } catch (error) {
+            console.error("Error accepting application:", error);
+            setMessage("An error occurred. Please try again later.");
+        } finally {
+            setLoading(false)
+        }
+    };
+
+    const handleRejectApplication = async (applicationId) => {
+        try {
+            setLoading(true)
+            const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URI}/api/applications/update/${applicationId}`, {
+                status: "rejected"
+            }, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+
+            // Update applications state to reflect the change
+            setApplications(applications.map((app) => (app._id === applicationId ? { ...app, status: "rejected" } : app)));
+
+            // Show success message to the user
+            setMessage("Application rejected.");
+        } catch (error) {
+            console.error("Error rejecting application:", error);
+            setMessage("An error occurred. Please try again later.");
+        } finally {
+            setLoading(false)
+        }
+    };
+
+
     const handleSubmit = async () => {
         try {
             setLoadingApplication(true);
@@ -208,26 +266,38 @@ export default function TaskPage() {
                                             </div>
                                         )}
                                         <Group justify="end">
+                                            {loading && <Spinner />}
                                             {/* Replace with API endpoint and status update logic */}
-                                            <Button
-                                                variant={application.status === "pending" ? "light" : "outline"}
-                                                color='green'
-                                                disabled={application.status !== "pending"}
-                                                size='md'
-                                                leftSection={<IconCheck className='size-5' />}
-                                                onClick={() => handleAcceptApplication(application._id)}
-                                            >
-                                                Accept
-                                            </Button>
-                                            <Button
-                                                variant="light"
-                                                color="red"
-                                                size='md'
-                                                leftSection={<IconX className='size-5' />}
-                                                onClick={() => handleRejectApplication(application._id)}
-                                            >
-                                                Reject
-                                            </Button>
+                                            {application.status === "pending" && (
+                                                <>
+                                                    <Button
+                                                        variant={application.status === "pending" ? "light" : "outline"}
+                                                        color='green'
+                                                        disabled={application.status !== "pending"}
+                                                        size='md'
+                                                        leftSection={<IconCheck className='size-5' />}
+                                                        onClick={() => handleAcceptApplication(application._id)}>
+                                                        Accept
+                                                    </Button>
+                                                    <Button
+                                                        variant="light"
+                                                        color="red"
+                                                        size='md'
+                                                        hidden={application.status === "pending"}
+                                                        leftSection={<IconX className='size-5' />}
+                                                        onClick={() => handleRejectApplication(application._id)}
+                                                    >
+                                                        Reject
+                                                    </Button>
+                                                </>
+                                            )}
+                                            {application.status === "selected" && (
+                                                <Badge variant='light' size="lg" color='green'>Application Selected</Badge>
+                                            )}
+                                            {application.status === "rejected" && (
+                                                <Badge variant='light' size="lg" color='red'>Application Rejected</Badge>
+                                            )}
+
                                         </Group>
                                     </Card>
                                 ))}

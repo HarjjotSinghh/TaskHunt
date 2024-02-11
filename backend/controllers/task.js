@@ -3,7 +3,7 @@ const Task = require("../models/Task")
 
 async function getAllTasks(req, res, next) {
     try {
-        const tasks = await Task.find().populate("owner")
+        const tasks = await Task.find().sort({ createdAt: -1 }).populate("owner")
         return res.status(200).json({
             message: "Successfully fetched all tasks",
             tasks: tasks
