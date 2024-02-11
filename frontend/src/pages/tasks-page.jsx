@@ -72,7 +72,7 @@ export default function AllTasksPage() {
         ) : (
           currentTasks.map((task) => (
             <Grid.Col span={{ lg: 6 }} key={task._id}>
-              <Card withBorder padding="xl" radius="md" className="mb-md">
+              <Card withBorder padding="xl" radius="md" h={"100%"} className="mb-md">
                 <Link to={`/task/${task._id}`} className='hover:text-[var(--mantine-color-purple-5)] w-fit duration-200 transition-colors ease-in-out'>
                   <Text size="24px" fw={700}>
                     {task.name}
@@ -81,7 +81,7 @@ export default function AllTasksPage() {
                 <Text lineClamp={4} size="lg" mt={20}>
                   {task.description}
                 </Text>
-                <div className='flex flex-wrap items-center justify-between gap-4 mt-4'>
+                <div className='flex flex-wrap items-center justify-between gap-4 mt-4 mb-6'>
                   <Text size="lg" fw={600} className='inline-flex items-center gap-2 '>
                     <IconMoneybag className='size-8' />
                     <div className='w-full flex flex-col items-start'>
@@ -118,7 +118,7 @@ export default function AllTasksPage() {
                     </div>
                   }
                 </div>
-                <Button className='inline-flex items-center gap-2' fullWidth mt={26} size='lg' component="a" href={`/task/${task._id}`} variant="light">
+                <Button className='inline-flex items-center gap-2 mt-auto' fullWidth  size='lg' component="a" href={`/task/${task._id}`} variant="light">
                   Apply For Task
                 </Button>
               </Card>
