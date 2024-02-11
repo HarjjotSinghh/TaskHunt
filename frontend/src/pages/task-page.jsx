@@ -239,7 +239,7 @@ export default function TaskPage() {
                             </Group>
                             {applications.length === 0 && <Text size="lg" ta={"left"}>No applications recieved on this task yet...</Text>}
 
-                            <div className='flex justify-center items-center flex-col gap-8'>
+                            <div className='flex justify-center items-stretch flex-col gap-8'>
                                 {applications.map((application, index) => (
                                     <Card className='flex flex-col gap-4' key={application._id} withBorder padding="xl" radius="md" mb={4}>
                                         <Title className='inline-flex items-center gap-2' order={3}>
@@ -251,7 +251,7 @@ export default function TaskPage() {
                                                     <IconInfoCircle className='size-5' />
                                                     Description
                                                 </Title>
-                                                <Text size="lg" className='whitespace-pre-wrap'>
+                                                <Text size="lg" className='whitespace-pre-wrap max-w-full break-words'>
                                                     {application.description}
                                                 </Text>
                                             </div>
