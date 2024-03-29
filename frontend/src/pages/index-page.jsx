@@ -3,6 +3,7 @@ import Dots from '../components/dots';
 import classes from './index-page.module.css';
 import { Link } from 'react-router-dom';
 
+
 export default function IndexPage() {
     return (
         <Container className={classes.wrapper} size={1400}>
